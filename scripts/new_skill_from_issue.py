@@ -15,32 +15,11 @@ import sys
 import urllib.request
 import urllib.error
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gh_auth import api
+
 OWNER_REPO = os.environ.get("GOODSKILL_REPO", "GuohongLi/goodskill")
-TOKEN = os.environ["GITHUB_TOKEN"]
 ISSUE_NUMBER = os.environ["ISSUE_NUMBER"]
-API = "https://api.github.com"
-
-
-def api(method, path, data=None):
-    req = urllib.request.Request(
-        API + path,
-        data=json.dumps(data).encode() if data is not None else None,
-        method=method,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {TOKEN}",
-            "Content-Type": "application/json",
-            "User-Agent": "goodskill-newskill-bot",
-        },
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            return r.status, json.loads(r.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        try:
-            return e.code, json.loads(e.read().decode("utf-8", "replace"))
-        except Exception:
-            return e.code, {"message": f"HTTP {e.code}"}
 
 
 def comment(text):

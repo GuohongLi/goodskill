@@ -1,0 +1,52 @@
+name: 提交新 Skill
+description: 把你的 Skill 收录进 GoodSkill 注册表（提交后自动生成 PR）
+title: "[新Skill] "
+labels: ["new-skill"]
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Skill slug
+      description: 英文小写、数字、短横线，如 my-skill
+      placeholder: my-skill
+    validations:
+      required: true
+  - type: input
+    id: display_name
+    attributes:
+      label: 展示名
+      placeholder: 我的 Skill
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 一句话描述
+      description: 说清它能做什么，这是 Agent 选型时最先看到的
+      placeholder: 例如：把中文会议纪要自动整理成结构化纪要
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: 分类
+      placeholder: 图像处理
+  - type: input
+    id: tags
+    attributes:
+      label: 标签（逗号分隔）
+      placeholder: 修图, 人像
+  - type: input
+    id: skill_url
+    attributes:
+      label: SKILL.md 原始链接
+      description: 可公开访问的 SKILL.md 原始文件地址（Gist / GitHub raw 链接）。机器人会自动下载收录
+      placeholder: https://raw.githubusercontent.com/xxx/xxx/main/SKILL.md
+    validations:
+      required: true
+  - type: input
+    id: trigger
+    attributes:
+      label: 触发词（可选）
+      description: 用户说什么话触发这个 Skill
+      placeholder: 用户说「修图」并附上照片

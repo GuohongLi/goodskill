@@ -40,10 +40,10 @@ GET https://guohongli.github.io/goodskill/api/v1/skills/{slug}.json
 ```
 skills/<slug>/SKILL.md      # skill 全文（唯一的事实来源）
 skills/<slug>/skill.yaml    # 元数据：展示名、描述、分类、标签、上传者、版本、触发词
-docs/                       # GitHub Pages 站点（含 api/v1/*.json，由 Action 生成）
+docs/                       # GitHub Pages 站点（含 api/v1/*.json，由定时任务生成）
 scripts/build_api.py        # 聚合脚本：skills + Issue 评价 + Release 下载数 → JSON
+scripts/cron_maintain.py    # 定期维护：聚合 + 推送 JSON + 新 skill 提交转 PR（每 6 小时）
 .github/ISSUE_TEMPLATE/     # 结构化表单：skill_review.yml / skill_submission.yml
-.github/workflows/          # build.yml（定时/事件触发聚合）/ new-skill.yml（提交转 PR）
 ```
 
 ## 部署

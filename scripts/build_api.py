@@ -22,34 +22,28 @@ import urllib.request
 import urllib.error
 from datetime import datetime, timezone
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gh_auth import api as gh_api
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKILLS_DIR = os.path.join(REPO_ROOT, "skills")
 API_DIR = os.path.join(REPO_ROOT, "docs", "api", "v1")
 
 OWNER_REPO = os.environ.get("GOODSKILL_REPO", "GuohongLi/goodskill")
-TOKEN = os.environ.get("GITHUB_TOKEN", "")
-API = "https://api.github.com"
 SITE = "https://guohongli.github.io/goodskill"
 
 
 def gh_get(path):
-    """GitHub API GET；无 token 时返回 None（降级为只用本地数据）。"""
-    if not TOKEN:
-        return None
-    req = urllib.request.Request(
-        API + path,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {TOKEN}",
-            "User-Agent": "goodskill-builder",
-        },
-    )
+    """GitHub API GET；失败返回 None（降级为只用本地数据）。"""
     try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return json.loads(r.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        print(f"  [warn] GET {path} -> HTTP {e.code}", file=sys.stderr)
+        code, body = gh_api("GET", path)
+    except Exception as e:
+        print(f"  [warn] GET {path} -> {e}", file=sys.stderr)
         return None
+    if code != 200:
+        print(f"  [warn] GET {path} -> HTTP {code}", file=sys.stderr)
+        return None
+    return body
 
 
 def parse_sections(body):

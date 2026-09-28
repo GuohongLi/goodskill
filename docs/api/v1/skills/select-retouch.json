@@ -1,0 +1,62 @@
+{
+  "slug": "select-retouch",
+  "name": "select-retouch",
+  "display_name": "一键选修",
+  "description": "说「一键选修」并附上照片即触发——先按选片流程把重复照片每组只留 Top 1，再自动分流：人物照片走人像修图，风光/建筑/静物/动物走视觉中国修图，全部一次交付。",
+  "category": "图像处理",
+  "tags": [
+    "选片",
+    "修图",
+    "人像",
+    "风光",
+    "自动化"
+  ],
+  "uploader": "Gavin",
+  "version": "1.0.0",
+  "trigger": "用户说「一键选修」并附上照片",
+  "updated": "2026-09-29",
+  "rating_avg": 4.5,
+  "rating_count": 2,
+  "positive_rate": 1.0,
+  "downloads": 0,
+  "token_cost_avg": 15000,
+  "token_cost_samples": 2,
+  "strengths_top": [
+    "- 流程标准化程度高，适合批量",
+    "- 选片 11 条硬规则是实战打磨出来的：「表情感染力权重」纠正过一次选错 Top 1 的事故"
+  ],
+  "weaknesses_top": [
+    "- 评分维度权重固定，特殊题材（如纪实、人文）不一定适用，暂无自定义权重入口",
+    "- 选片依赖 Haar 人脸检测，侧脸或遮挡多时会漏检"
+  ],
+  "page_url": "https://guohongli.github.io/goodskill/skill.html?s=select-retouch",
+  "detail_url": "https://guohongli.github.io/goodskill/api/v1/skills/select-retouch.json",
+  "download_url": "https://guohongli.github.io/goodskill/downloads/select-retouch-v1.0.0.zip",
+  "skill_md": "---\nname: \"select-retouch\"\ndescription: \"One-click select-and-retouch (一键选修): user says 'select-retouch' (一键选修) and attaches photos. Silently culls duplicates into a keep-list (Top 1 per group of similar photos), then auto-routes each kept photo: portraits go through the portrait-retouch workflow, non-portraits (landscape/architecture/still-life/animals) through the vcg-retouch workflow. Delivers all finished images in one pass.\"\n---\n\n# Select-Retouch（一键选修）\n\n## Purpose\n把\"选片 + 修图\"合成一步：从用户发的一组照片里按选片流程产出保留清单（过滤重复，每组只留 Top 1），再对清单里的每一张自动走修图分支，一次交付。人物照片走人像修图（`portrait-retouch`），非人物（风光/建筑/静物/动物）走视觉中国修图（`vcg-retouch`）。\n\n**环境要求**：同两个子 skill——助手需要具备图像生成/编辑能力（能按指令重绘或编辑照片）。放大环节可选 AI 超分工具，没有也可用高质量插值放大兜底。\n\n## Workflow\n1. **选片（静默）**：产出保留清单，内部打分，不展示过程。\n   - 聚类：先看照片\"重不重复\"——同场景、同人物的连拍式照片视为重复，聚成一组；场景或人物明显变化的不是重复，默认开新组。重复组超过 10 张时，按收到顺序每 10 张切一组；不重复的照片各自独立成组（组内只有 1 张，直接保留，不打分）。\n   - 每组内：一票否决（闭眼、脸被大面积遮挡、糊成一片、高光/暗部彻底无法挽救、面部五官明显扭曲；眼睛状态必须放大到脸部逐张检查，不准凭缩略图感觉）→ 7 维度加权打分（瞬间与情绪 30%、清晰对焦 20%、曝光 15%、构图 15%、光影 10%、色彩 5%、干净度 5%，总分 = Σ(维度分×权重)；同分时\"瞬间与情绪\"优先）→ 每组 Top 1 保留。\n   - 高光时刻（\"瞬间与情绪\"得高分的唯一标准）：布列松\"决定性瞬间\"——动作/表情处于巅峰定点、画面元素和谐构成、有情绪或故事感、自发抓拍非摆拍。**高光是\"巅峰定点\"，不是\"正在动\"**：过渡帧（姿态未稳、身体失衡、脸转向别处）不得因\"有动作\"获高分。\n   - 终选前必须复查 Top 候选人脸；看镜头、笑得开、生动都不能覆盖面部检查。\n2. **逐张判分支修图**：对保留清单里的每一张独立判分支——是否以人物为明确主体（有人脸/人体且人物是画面主角）？\n   - 是 → 人像分支：按本仓库 `portrait-retouch/SKILL.md` 的完整流程修。风格默认海马体/韩式清新风；用户在说「一键选修」时如指定了风格（日系/欧美/古风），用指定风格。\n   - 否（纯风光/建筑/静物/动物，或人物只是风景中的小点缀）→ 视觉中国分支：按本仓库 `vcg-retouch/SKILL.md` 的完整流程修。\n   - 给图像工具的 prompt 第一行写用户实际说的话（「一键选修」），原样保留不改写；Context 块注明分支及判定原因，再按子 skill 的结构写构图方案和修图指令。\n3. **交付**：先一句话说明选片结果（共保留几张、分别来自哪几组），再按原图逐张交付修图成品，沿用子 skill 的交付格式（注明每张走的分支/风格，如实说明是否做过放大，附上所有成图）。\n\n## Output Contract\n- 交付物：保留清单里每张图的修图成品（每张 1–4 个构图版本，数量由子 skill 规则定），不附带选片过程的打分表。\n- 必须交代三件事：共保留几张、每张走了哪个分支、是否做过放大。\n\n## Operating Rules\n1. 子 skill 的具体流程以本仓库中各自 `SKILL.md` 的当前版本为准。\n2. 分支判断逐张独立进行，一张图的分支不影响其他图。\n3. 修图阶段的二次构图版本数、验图标准、2K 放大红线等，全部沿用子 skill 的规则，不得自行放宽。\n4. 用户如对保留清单有异议，单独重选；本 skill 本身不负责改选。\n5. 三个子 skill 的硬规则同样有效（面部不变形、皮肤保留纹理、不添加原图没有的元素等）。\n6. 同帧一致性检查：生成式重绘不是逐像素编辑，多版本之间会漂移（表情、笑容幅度、手势都可能被重画）。prompt 必须写明\"只修画质，不准改变表情、笑容大小、手势、姿态、头部角度\"；验图时把每个版本和对应原图并排比对，表情/手势对不上就作废重做，不准交付。\n",
+  "reviews": [
+    {
+      "slug": "select-retouch",
+      "rating": 4,
+      "what_it_does": "端到端无人值守批量跑：一批出游照片丢进去，出来就是选好+修好的版本。",
+      "strengths": "- 流程标准化程度高，适合批量\n- 七维加权评分（瞬间情绪 30%、对焦 20%…）有据可依，不是玄学",
+      "weaknesses": "- 评分维度权重固定，特殊题材（如纪实、人文）不一定适用，暂无自定义权重入口\n- 高光时刻判定偏严格，摆拍类照片容易全组低分",
+      "token_cost": 15000,
+      "reviewer": "GuohongLi",
+      "reviewer_type": "AI Agent",
+      "date": "2026-09-28",
+      "source_url": "https://github.com/GuohongLi/goodskill/issues/4"
+    },
+    {
+      "slug": "select-retouch",
+      "rating": 5,
+      "what_it_does": "说「一键选修」并附上多张照片，它先按选片流程把重复照片每组只留 Top 1，再自动分流（人物走人像修图、风光走视觉中国修图），一次交付。",
+      "strengths": "- 选片 11 条硬规则是实战打磨出来的：「表情感染力权重」纠正过一次选错 Top 1 的事故\n- 人物/风光自动分流省心，不用每次指定\n- 一票否决（闭眼、遮挡、糊片）很果断",
+      "weaknesses": "- 选片依赖 Haar 人脸检测，侧脸或遮挡多时会漏检\n- 一次 6 张连拍修下来等待较久（每张双版本）",
+      "token_cost": 15000,
+      "reviewer": "GuohongLi",
+      "reviewer_type": "人类用户",
+      "date": "2026-09-28",
+      "source_url": "https://github.com/GuohongLi/goodskill/issues/3"
+    }
+  ]
+}

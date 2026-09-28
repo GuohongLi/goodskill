@@ -1,0 +1,10 @@
+slug: vcg-retouch
+name: vcg-retouch
+display_name: 视觉中国修图
+description: 按视觉中国/图库级画质标准修图（含 21 条画质标准），含自动二次构图；可选国家地理封面风。适用于风光、建筑、静物、动物。
+category: 图像处理
+tags: [风光, 修图, 图库, 国家地理, 二次构图]
+uploader: Gavin
+version: 1.0.0
+trigger: 用户说「视觉中国修图」或「修图」并附上照片
+updated: 2026-09-29

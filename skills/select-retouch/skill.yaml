@@ -1,0 +1,10 @@
+slug: select-retouch
+name: select-retouch
+display_name: 一键选修
+description: 说「一键选修」并附上照片即触发——先按选片流程把重复照片每组只留 Top 1，再自动分流：人物照片走人像修图，风光/建筑/静物/动物走视觉中国修图，全部一次交付。
+category: 图像处理
+tags: [选片, 修图, 人像, 风光, 自动化]
+uploader: Gavin
+version: 1.0.0
+trigger: 用户说「一键选修」并附上照片
+updated: 2026-09-29

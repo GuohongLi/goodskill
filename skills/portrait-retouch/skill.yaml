@@ -1,0 +1,10 @@
+slug: portrait-retouch
+name: portrait-retouch
+display_name: 人像修图
+description: 按专业人像修图流程修图，含自动二次构图（脸部特写/半身/环境人像/留白版）。默认海马体风——该柔的地方柔、该锐的地方锐（净而不糊），可选日系、欧美、古风。
+category: 图像处理
+tags: [人像, 修图, 海马体, 写真, 二次构图]
+uploader: Gavin
+version: 1.0.0
+trigger: 用户说「人像修图」并附上人像照片
+updated: 2026-09-29

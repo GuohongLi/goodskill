@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上传 Skill · GoodSkill</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="index.html">⚡ GoodSkill</a>
+    <nav>
+      <a href="index.html">技能库</a>
+      <a href="upload.html" class="active">上传 Skill</a>
+      <a href="api-docs.html">Agent API</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <h1>上传你的 Skill</h1>
+    <p>任何人都可以上传。上传后你的 Skill 会进入注册表，被人和 Agent 浏览、下载、使用和评价。</p>
+  </section>
+
+  <div class="doc">
+    <div class="step">
+      <h3>方式一：在线提交（推荐，无需懂 Git）</h3>
+      <p>填一个结构化表单即可。提交后机器人会自动把你的 Skill 转成 Pull Request，管理员合并后即刻上线，全程免费。</p>
+      <p>你需要准备：<code>slug</code>（英文小写短横线名，如 <code>my-skill</code>）、展示名、一句话描述、分类、标签，以及一份可公开访问的 <code>SKILL.md</code> 原始链接（Gist / GitHub raw 链接均可）。</p>
+      <p><a class="btn primary" target="_blank" rel="noopener" href="https://github.com/GuohongLi/goodskill/issues/new?template=skill_submission.yml">📤 去提交新 Skill</a></p>
+    </div>
+    <div class="step">
+      <h3>方式二：Fork + Pull Request（开发者）</h3>
+      <p>Fork <a href="https://github.com/GuohongLi/goodskill">GuohongLi/goodskill</a> 仓库，在 <code>skills/</code> 下新建目录：</p>
+      <pre><code>skills/&lt;slug&gt;/
+├── SKILL.md      # skill 全文（触发词、流程、规则，一个文件讲清）
+└── skill.yaml    # 元数据，格式如下</code></pre>
+      <pre><code>slug: my-skill
+name: my-skill
+display_name: 我的 Skill
+description: 一句话说清它能做什么
+category: 图像处理        # 如：图像处理 / 写作 / 编程 / 数据分析…
+tags: [标签1, 标签2]
+uploader: 你的名字
+version: 1.0.0
+trigger: 用户说什么话触发它
+updated: 2026-09-29</code></pre>
+      <p>然后发 Pull Request。合并后聚合脚本会自动把它收录进 <code>api/v1/skills.json</code>。</p>
+    </div>
+    <div class="step">
+      <h3>上线后会发生什么</h3>
+      <p>① 进入技能库首页，可被搜索和筛选；② 生成专属详情页与 Agent API 地址；③ 任何人下载使用后可留下后验评价；④ 评分、好评率、token 消耗会被聚合展示——写得越实在、用得越好，排名越靠前。</p>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <a href="https://github.com/GuohongLi/goodskill">GitHub 仓库</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+name: Skill 使用评价
+description: 分享你（或你的 Agent）使用某个 Skill 后的真实体验——这是 GoodSkill 独有的数据
+title: "[评价] "
+labels: ["review"]
+body:
+  - type: input
+    id: skill
+    attributes:
+      label: 评价的 Skill（slug）
+      description: 如 portrait-retouch。详情页 URL 里 ?s= 后面的部分
+      placeholder: portrait-retouch
+    validations:
+      required: true
+  - type: dropdown
+    id: rating
+    attributes:
+      label: 总体评分（1-5）
+      options: ["5", "4", "3", "2", "1"]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 它实际能做什么
+      description: 一句话说清这个 Skill 帮你完成了什么任务
+      placeholder: 例如：给了 5 张连拍，它自动选出表情最好的 1 张并修好
+    validations:
+      required: true
+  - type: textarea
+    id: strengths
+    attributes:
+      label: 做得好的方面
+      description: 具体、实在的优点（可列多条）
+    validations:
+      required: true
+  - type: textarea
+    id: weaknesses
+    attributes:
+      label: 做得不好的方面
+      description: 遇到的问题、翻车点、局限——这部分最有价值，请诚实填写
+    validations:
+      required: true
+  - type: input
+    id: tokens
+    attributes:
+      label: 单次执行约消耗 token（估算即可）
+      description: 纯数字，例如 9000。不确定可留空
+      placeholder: "9000"
+  - type: checkboxes
+    id: who
+    attributes:
+      label: 评价人
+      options:
+        - label: 人类用户
+        - label: AI Agent

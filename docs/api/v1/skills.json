@@ -1,0 +1,115 @@
+{
+  "registry": "goodskill",
+  "api_version": "v1",
+  "site": "https://guohongli.github.io/goodskill",
+  "repo": "https://github.com/GuohongLi/goodskill",
+  "updated_at": "2026-09-28T17:47:11.728431+00:00",
+  "count": 3,
+  "skills": [
+    {
+      "slug": "portrait-retouch",
+      "name": "portrait-retouch",
+      "display_name": "人像修图",
+      "description": "按专业人像修图流程修图，含自动二次构图（脸部特写/半身/环境人像/留白版）。默认海马体风——该柔的地方柔、该锐的地方锐（净而不糊），可选日系、欧美、古风。",
+      "category": "图像处理",
+      "tags": [
+        "人像",
+        "修图",
+        "海马体",
+        "写真",
+        "二次构图"
+      ],
+      "uploader": "Gavin",
+      "version": "1.0.0",
+      "trigger": "用户说「人像修图」并附上人像照片",
+      "updated": "2026-09-29",
+      "rating_avg": 4.5,
+      "rating_count": 2,
+      "positive_rate": 1.0,
+      "downloads": 0,
+      "token_cost_avg": 10500,
+      "token_cost_samples": 2,
+      "strengths_top": [
+        "- 风格参数化（海马体/日系/欧美/古风），差异通过影调/肤色/对比度技术参数体现，可控",
+        "- 双版本策略实用：稳妥版保底，大胆构图版经常有惊喜"
+      ],
+      "weaknesses_top": [
+        "- 对光影复杂的原图，D&B 指令偶尔会过度，需要人工把关",
+        "- 脸小于 100px 时生成式重绘有换脸风险，只能出环境版"
+      ],
+      "page_url": "https://guohongli.github.io/goodskill/skill.html?s=portrait-retouch",
+      "detail_url": "https://guohongli.github.io/goodskill/api/v1/skills/portrait-retouch.json",
+      "download_url": "https://guohongli.github.io/goodskill/downloads/portrait-retouch-v1.0.0.zip"
+    },
+    {
+      "slug": "select-retouch",
+      "name": "select-retouch",
+      "display_name": "一键选修",
+      "description": "说「一键选修」并附上照片即触发——先按选片流程把重复照片每组只留 Top 1，再自动分流：人物照片走人像修图，风光/建筑/静物/动物走视觉中国修图，全部一次交付。",
+      "category": "图像处理",
+      "tags": [
+        "选片",
+        "修图",
+        "人像",
+        "风光",
+        "自动化"
+      ],
+      "uploader": "Gavin",
+      "version": "1.0.0",
+      "trigger": "用户说「一键选修」并附上照片",
+      "updated": "2026-09-29",
+      "rating_avg": 4.5,
+      "rating_count": 2,
+      "positive_rate": 1.0,
+      "downloads": 0,
+      "token_cost_avg": 15000,
+      "token_cost_samples": 2,
+      "strengths_top": [
+        "- 流程标准化程度高，适合批量",
+        "- 选片 11 条硬规则是实战打磨出来的：「表情感染力权重」纠正过一次选错 Top 1 的事故"
+      ],
+      "weaknesses_top": [
+        "- 评分维度权重固定，特殊题材（如纪实、人文）不一定适用，暂无自定义权重入口",
+        "- 选片依赖 Haar 人脸检测，侧脸或遮挡多时会漏检"
+      ],
+      "page_url": "https://guohongli.github.io/goodskill/skill.html?s=select-retouch",
+      "detail_url": "https://guohongli.github.io/goodskill/api/v1/skills/select-retouch.json",
+      "download_url": "https://guohongli.github.io/goodskill/downloads/select-retouch-v1.0.0.zip"
+    },
+    {
+      "slug": "vcg-retouch",
+      "name": "vcg-retouch",
+      "display_name": "视觉中国修图",
+      "description": "按视觉中国/图库级画质标准修图（含 21 条画质标准），含自动二次构图；可选国家地理封面风。适用于风光、建筑、静物、动物。",
+      "category": "图像处理",
+      "tags": [
+        "风光",
+        "修图",
+        "图库",
+        "国家地理",
+        "二次构图"
+      ],
+      "uploader": "Gavin",
+      "version": "1.0.0",
+      "trigger": "用户说「视觉中国修图」或「修图」并附上照片",
+      "updated": "2026-09-29",
+      "rating_avg": 4.5,
+      "rating_count": 2,
+      "positive_rate": 1.0,
+      "downloads": 0,
+      "token_cost_avg": 8000,
+      "token_cost_samples": 2,
+      "strengths_top": [
+        "- 默认风 vs 封面风的自主选择逻辑清晰（单一强主体+层次感→封面风）",
+        "- 国家地理封面风在晴天片上把调门开大一档后确实有味道（天空更蓝、云层对比更强），且不碰 HDR 红线"
+      ],
+      "weaknesses_top": [
+        "- 对人物点缀的风光片，人物提亮偶尔不够",
+        "- 平雾场景下「戏剧感」和「真实感」不可兼得，有过把平雾脑补成云海的翻车"
+      ],
+      "page_url": "https://guohongli.github.io/goodskill/skill.html?s=vcg-retouch",
+      "detail_url": "https://guohongli.github.io/goodskill/api/v1/skills/vcg-retouch.json",
+      "download_url": "https://guohongli.github.io/goodskill/downloads/vcg-retouch-v1.0.0.zip"
+    }
+  ]
+}

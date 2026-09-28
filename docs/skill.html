@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill 详情 · GoodSkill</title>
+<link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="index.html">⚡ GoodSkill</a>
+    <nav>
+      <a href="index.html">技能库</a>
+      <a href="upload.html">上传 Skill</a>
+      <a href="api-docs.html">Agent API</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="app"><div class="loading">加载中…</div></main>
+<footer class="site-footer">
+  <a href="https://github.com/GuohongLi/goodskill">GitHub 仓库</a>
+</footer>
+<script>
+const slug = new URLSearchParams(location.search).get("s") || "";
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function fmtTokens(n) {
+  if (!n) return "未知";
+  return n >= 1000 ? "~" + Math.round(n / 1000) + "k" : "~" + n;
+}
+function starsRow(avg, count, rate) {
+  if (!avg) return '<div class="stat"><div class="v">–</div><div class="k">暂无评分</div></div>';
+  return `<div class="stat"><div class="v"><span class="star">★</span> ${avg.toFixed(1)}</div>
+    <div class="k">${count} 条评价 · 好评率 ${Math.round(rate * 100)}%</div></div>`;
+}
+function renderReview(r) {
+  const starStr = "★".repeat(r.rating || 0) + "☆".repeat(5 - (r.rating || 0));
+  return `<div class="review">
+    <div class="rhead">
+      <span class="stars">${starStr}</span>
+      <span class="who">${esc(r.reviewer || "")} · ${esc(r.reviewer_type || "")} · ${esc(r.date || "")}
+        ${r.source_url ? ` · <a href="${esc(r.source_url)}" target="_blank" rel="noopener">原文</a>` : ""}</span>
+    </div>
+    <dl>
+      ${r.what_it_does ? `<dt>实际能做什么</dt><dd>${esc(r.what_it_does)}</dd>` : ""}
+      ${r.strengths ? `<dt class="good">✓ 做得好的方面</dt><dd>${esc(r.strengths)}</dd>` : ""}
+      ${r.weaknesses ? `<dt class="bad">✗ 做得不好的方面</dt><dd>${esc(r.weaknesses)}</dd>` : ""}
+      ${r.token_cost ? `<dt>⚡ 单次执行 token 消耗</dt><dd>约 ${Number(r.token_cost).toLocaleString()} tokens</dd>` : ""}
+    </dl>
+  </div>`;
+}
+
+fetch("api/v1/skills/" + encodeURIComponent(slug) + ".json")
+  .then(r => { if (!r.ok) throw 0; return r.json(); })
+  .then(d => {
+    document.title = d.display_name + " · GoodSkill";
+    const md = (window.marked && d.skill_md) ? marked.parse(d.skill_md) : `<pre>${esc(d.skill_md || "")}</pre>`;
+    document.getElementById("app").innerHTML = `
+      <section class="detail-head">
+        <a href="index.html">← 返回技能库</a>
+        <h1 style="margin-top:12px">${esc(d.display_name)} <span style="font-size:14px;color:#64748b;font-weight:400">v${esc(d.version || "")}</span></h1>
+        <div class="sub">${esc(d.description || "")}</div>
+        <div class="tags" style="margin-top:10px">${(d.tags || []).map(t => `<span class="tag">#${esc(t)}</span>`).join("")}</div>
+        <div class="sub" style="margin-top:8px">上传者 ${esc(d.uploader || "")} · 分类 ${esc(d.category || "")} · 触发词：${esc(d.trigger || "—")}</div>
+      </section>
+      <section class="stat-row">
+        ${starsRow(d.rating_avg, d.rating_count, d.positive_rate)}
+        <div class="stat"><div class="v">⬇ ${d.downloads || 0}</div><div class="k">下载次数</div></div>
+        <div class="stat"><div class="v">⚡ ${fmtTokens(d.token_cost_avg)}</div><div class="k">平均 tokens / 次${d.token_cost_samples ? `（${d.token_cost_samples}个样本）` : ""}</div></div>
+      </section>
+      <section class="actions">
+        ${d.download_url ? `<a class="btn primary" href="${esc(d.download_url)}">⬇ 下载 Skill（zip）</a>` : ""}
+        <a class="btn" target="_blank" rel="noopener"
+           href="https://github.com/GuohongLi/goodskill/issues/new?template=skill_review.yml&title=${encodeURIComponent("[评价] " + d.slug)}">✍ 写一条后验评价</a>
+        <button class="btn ghost" id="copyApi">📋 复制 Agent API 地址</button>
+      </section>
+      <section class="section">
+        <h2>📝 后验评价（${(d.reviews || []).length}）</h2>
+        <div id="reviews">${(d.reviews || []).map(renderReview).join("") || '<div class="empty">还没有评价 — 用过之后，欢迎回来留第一条。</div>'}</div>
+      </section>
+      <section class="section">
+        <h2>📖 能力描述（SKILL.md 全文）</h2>
+        <div class="skillmd">${md}</div>
+      </section>`;
+    document.getElementById("copyApi").onclick = () => {
+      const url = location.origin + location.pathname.replace(/skill\.html.*$/, "") + "api/v1/skills/" + slug + ".json";
+      navigator.clipboard.writeText(url).then(() => alert("已复制：\n" + url));
+    };
+  })
+  .catch(() => {
+    document.getElementById("app").innerHTML = '<div class="empty">找不到这个 Skill，<a href="index.html">返回技能库</a>。</div>';
+  });
+</script>
+</body>
+</html>

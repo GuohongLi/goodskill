@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name:  bug 反馈 / 功能建议
+    url: https://github.com/GuohongLi/goodskill/issues/new
+    about: 不属于 Skill 评价或提交的问题请直接开 issue 说明

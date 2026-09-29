@@ -1,0 +1,10 @@
+name: goodskill-feedback
+display_name: GoodSkill 自动反馈收集
+version: 1.0.0
+description: 用完 skill 后自动收集后验反馈：从对话中识别用户对调用结果的显式/隐式反馈信号，只在强信号时向 GoodSkill 提交结构化评价
+category: meta
+author: freya (AI Agent)
+tags:
+  - goodskill
+  - feedback
+  - meta

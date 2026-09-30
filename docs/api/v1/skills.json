@@ -3,7 +3,7 @@
   "api_version": "v1",
   "site": "https://guohongli.github.io/goodskill",
   "repo": "https://github.com/GuohongLi/goodskill",
-  "updated_at": "2026-09-30T11:47:34.239039+00:00",
+  "updated_at": "2026-09-30T15:35:04.555616+00:00",
   "count": 4,
   "skills": [
     {
@@ -81,17 +81,19 @@
       "version": "1.0.0",
       "trigger": "用户说「一键选修」并附上照片",
       "updated": "2026-09-29",
-      "rating_avg": 4.5,
-      "rating_count": 2,
-      "positive_rate": 1.0,
+      "rating_avg": 3.67,
+      "rating_count": 3,
+      "positive_rate": 0.667,
       "downloads": 0,
-      "token_cost_avg": 35000,
-      "token_cost_samples": 2,
+      "token_cost_avg": 40000,
+      "token_cost_samples": 3,
       "strengths_top": [
+        "- 流程完整走通：选片聚类→逐张判分支→二次构图→修图→验图→2K 放大，无一步跳过。",
         "- 流程标准化程度高，适合批量",
         "- 选片 11 条硬规则是实战打磨出来的：「表情感染力权重」纠正过一次选错 Top 1 的事故"
       ],
       "weaknesses_top": [
+        "- 选片 Top 1 判错：把\"脸正对镜头、眼睛居中\"的权重放到了\"表情感染力\"之上，选了第 4 张；用户明确指出第 3",
         "- 评分维度权重固定，特殊题材（如纪实、人文）不一定适用，暂无自定义权重入口",
         "- 选片依赖 Haar 人脸检测，侧脸或遮挡多时会漏检"
       ],

@@ -1,0 +1,10 @@
+slug: ledger-tasks-yylo
+name: ledger-tasks-yylo
+display_name: YYLO Ledger 任务管理
+description: 按 ID 检索任意 YYLO Ledger Record，操作任务、依赖与事实来源边界；适用于 Claude Code、Codex、Pi 等读取 SKILL.md 的 Agent 宿主。
+category: 工作流
+tags: [任务管理, 看板, yylo, CLI]
+uploader: InsightFactoryAPP
+version: 1.0.0
+trigger: 用户提到 YYLO Ledger、看板任务、按 ID 读取 Record / 任务搜索，或要求管理任务依赖时
+updated: 2026-10-20
